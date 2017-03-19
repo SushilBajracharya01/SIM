@@ -13,16 +13,18 @@ void gotoxy(int x,int y){
 
 int main(){
 	char pasword[10],usrname[10], ch;
-	int i;
+	int i=0;
 	char stdpas[10] = "admin";
 	char stdusn[10] = "admin";
+	
 	gotoxy(32,10);
 	printf("user name: ");
-	gets(usrname);
 	gotoxy(32,12);
 	printf("Password: ");
-
-	i=0;
+	gotoxy(44,10);
+	gets(usrname);
+	gotoxy(44,12);
+	
 	while(1){
 		ch = getch();
 		if(ch == '\r'){
