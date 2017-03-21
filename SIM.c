@@ -146,6 +146,34 @@ void add(){
 	
 	
 }
+
+void adpage(){
+	rect();
+	int cho;
+	gotoxy(47,15);
+	printf("1. ADD");
+	gotoxy(47,20);
+	printf("2. Modify");
+	gotoxy(47,25);
+	printf("3. Delete");
+	cho = getch();
+	
+	switch (cho){
+		case '1':
+			system("CLS");
+			add();
+			break;
+		case '2':
+			printf("modify");
+			break;
+		case '3':
+			printf("Delete");
+			break;
+		default:
+			adpage();
+	}
+}
+
 int login(){
 	rect();
 	char pasword[10],usrname[10], ch;
@@ -197,7 +225,7 @@ int login(){
 		printf("Access Granted");
 		getch();
 		system("CLS");
-		add();
+		adpage();
 	}
 
 	else{
@@ -222,6 +250,8 @@ void fpage(){
 		case '1':
 			gotoxy(70,22);
 			printf("0");
+			gotoxy(71,23);
+			printf("\\");
 			gotoxy(47,22);
 			scanf("%s",sea);
 			break;
@@ -235,6 +265,8 @@ void fpage(){
 }
 	
 int main(){
+	system("CLS");
 	rect();
 	fpage();
 }
+
