@@ -5,6 +5,45 @@
 
 COORD coord = {0,0};
 
+void gotoxy(int x,int y);
+void rect();
+void add();
+void adminpage();
+int login();
+void fpage();
+void search(char name[20]);
+
+
+struct DOB{
+	int day;
+	int month;
+	int year;
+};
+struct nam{
+		char fname[10];
+		char lname[20];
+	};
+struct student {
+	int id;
+	struct nam name;
+	char regi[20];
+	int roll;
+	char address[30];
+	char phone[12];
+	int year;
+	char sem[10];
+	struct DOB date;
+
+};
+
+
+int main(){
+	system("CLS");
+	rect();
+	fpage();
+}
+
+
 void gotoxy(int x,int y){
 	coord.X=x;
 	coord.Y=y;
@@ -49,34 +88,9 @@ void rect(){
 	}
 }
 
-struct DOB{
-	int day;
-	int month;
-	int year;
-};
-struct nam{
-		char fname[10];
-		char lname[20];
-	};
-struct student {
-	
-	
-	int id;
-	struct nam name;
-	char regi[20];
-	int roll;
-	char address[30];
-	char phone[12];
-	int year;
-	char sem[10];
-	struct DOB date;
-
-};
-
 void add(){
-	rect();
 	FILE *fptr;
-	struct student record[100];
+	struct student record;
 	static int i=0,id;
 	char cont;
 
@@ -84,70 +98,69 @@ void add(){
 	gotoxy(90,14);
 	printf("Id : %d",id);
 	
-	fptr=fopen("E:/SIMs/ff.txt","w");
+	fptr=fopen("E:/SIMs/ff.txt","a+b");
 	if (fptr==NULL){
 		printf("FILE CANNOT BE CREATED\n");
 		exit(0);
 	}
 	
-	//print
-	gotoxy(13,14);
-	printf("Registration No.: ");
-	gotoxy(13,16);
-	printf("First name : ");
-	gotoxy(47,16);
-	printf("Last name : ");
-	gotoxy(85,16);
-	printf("Roll No. : ");
-	gotoxy(13,18);
-	printf("Address : ");
-	gotoxy(47,18);
-	printf("Phone No.: ");
-	gotoxy(13,20);
-	printf("Year: ");
-	gotoxy(47,20);
-	printf("Semester: ");
-	gotoxy(13,22);
-	printf("Date OF Birth (dd mm yyy): ");
-	
-	// scan
-	gotoxy(31,14);
-	scanf("%s",&record[i].regi);
-	gotoxy(26,16);
-	scanf("%s",&record[i].name.fname);
-	gotoxy(59,16);
-	scanf("%s",&record[i].name.lname);
-	gotoxy(96,16);
-	scanf("%d",&record[i].roll);
-	gotoxy(23,18);
-	scanf("%s",&record[i].address);
-	gotoxy(58,18);
-	scanf("%s",&record[i].phone);
-	gotoxy(19,20);
-	scanf("%d",&record[i].year);
-	gotoxy(57,20);
-	scanf("%s",&record[i].sem);
-	gotoxy(40,22);
-	scanf("%d %d %d",&record[i].date.day,&record[i].date.month,&record[i].date.year);
-	
-	fprintf(fptr,"Registration No.:%s\t\t\tid=%d\nName: %s %s\t\troll no.: %d\naddress: %s\t\t\t\tphone no:%s\nyear: %d\t\t\t\t\tsemester:%s\nDOB:%d-%d-%d",record[i].regi,id,record[i].name.fname,record[i].name.lname,record[i].roll,record[i].address,record[i].phone,record[i].year,record[i].sem,record[i].date.day,record[i].date.month,record[i].date.year);
-	fclose(fptr);
-	gotoxy(13,24);
-	printf("Add ? if yes press 'y': ");
-	scanf(" %c",&cont);
-	i++;
-	printf("\n");
-	
-	if(cont == 'y'){
+	do{
+		rect();
+		//print
+		gotoxy(13,14);
+		printf("Registration No.: ");
+		gotoxy(13,16);
+		printf("First name : ");
+		gotoxy(47,16);
+		printf("Last name : ");
+		gotoxy(85,16);
+		printf("Roll No. : ");
+		gotoxy(13,18);
+		printf("Address : ");
+		gotoxy(47,18);
+		printf("Phone No.: ");
+		gotoxy(13,20);
+		printf("Year: ");
+		gotoxy(47,20);
+		printf("Semester: ");
+		gotoxy(13,22);
+		printf("Date OF Birth (dd mm yyy): ");
+		
+		// scan
+		gotoxy(31,14);
+		scanf("%s",&record.regi);
+		gotoxy(26,16);
+		scanf("%s",&record.name.fname);
+		gotoxy(59,16);
+		scanf("%s",&record.name.lname);
+		gotoxy(96,16);
+		scanf("%d",&record.roll);
+		gotoxy(23,18);
+		scanf("%s",&record.address);
+		gotoxy(58,18);
+		scanf("%s",&record.phone);
+		gotoxy(19,20);
+		scanf("%d",&record.year);
+		gotoxy(57,20);
+		scanf("%s",&record.sem);
+		gotoxy(40,22);
+		scanf("%d %d %d",&record.date.day,&record.date.month,&record.date.year);
+		
+		fwrite(&record,sizeof(record),1,fptr);
+		//fprintf(fptr,"\nRegistration No.:%s\t\t\tid=%d\nName: %s %s\t\troll no.: %d\naddress: %s\t\t\t\tphone no:%s\nyear: %d\t\t\t\t\t\nsemester:%s\nDOB:%d-%d-%d",record.regi,id,record.name.fname,record.name.lname,record.roll,record.address,record.phone,record.year,record.sem,record.date.day,record.date.month,record.date.year);
+		gotoxy(13,24);
+		printf("Add ? if yes press 'y': ");
+		scanf(" %c",&cont);
+		i++;
+		printf("\n");
+		
 		system("CLS");
-		add();
-	}
-	
-	
-	
+		
+	}while(cont == 'y');
+	fclose(fptr);
 }
 
-void adpage(){
+void adminpage(){
 	rect();
 	int cho;
 	gotoxy(47,15);
@@ -170,7 +183,7 @@ void adpage(){
 			printf("Delete");
 			break;
 		default:
-			adpage();
+			adminpage();
 	}
 }
 
@@ -225,7 +238,7 @@ int login(){
 		printf("Access Granted");
 		getch();
 		system("CLS");
-		adpage();
+		adminpage();
 	}
 
 	else{
@@ -254,6 +267,7 @@ void fpage(){
 			printf("\\");
 			gotoxy(47,22);
 			scanf("%s",sea);
+			search(sea);
 			break;
 		case '2':
 			system("CLS");
@@ -263,10 +277,69 @@ void fpage(){
 			fpage();
 	}
 }
-	
-int main(){
-	system("CLS");
-	rect();
-	fpage();
+
+void search(char name[20]){
+	FILE *fptr;
+	int dataFound = 0;
+	struct student record;	
+	fptr=fopen("E:/SIMs/ff.txt","rb");
+	if(fptr== NULL){
+		printf("FILE NOT FOUND");
+		exit(0);
+	}
+	else{
+		while(fread(&record,sizeof(record),1,fptr)==1){
+			if ( strcmp(record.name.fname,name)==0){
+				dataFound = 1;
+				system("CLS");
+				rect();
+				
+				//print
+				gotoxy(13,14);
+				printf("Registration No.: ");
+				gotoxy(13,16);
+				printf("First name : ");
+				gotoxy(47,16);
+				printf("Last name : ");
+				gotoxy(85,16);
+				printf("Roll No. : ");
+				gotoxy(13,18);
+				printf("Address : ");
+				gotoxy(47,18);
+				printf("Phone No.: ");
+				gotoxy(13,20);
+				printf("Year: ");
+				gotoxy(47,20);
+				printf("Semester: ");
+				gotoxy(13,22);
+				printf("Date OF Birth (dd mm yyy): ");
+				
+				gotoxy(31,14);
+				printf("%s",record.regi);
+				gotoxy(26,16);
+				printf("%s",record.name.fname);
+				gotoxy(59,16);
+				printf("%s",record.name.lname);
+				gotoxy(96,16);
+				printf("%d",record.roll);
+				gotoxy(23,18);
+				printf("%s",record.address);
+				gotoxy(58,18);
+				printf("%s",record.phone);
+				gotoxy(19,20);
+				printf("%d",record.year);
+				gotoxy(57,20);
+				printf("%s",record.sem);
+				gotoxy(40,22);
+				printf("%d %d %d",record.date.day,record.date.month,record.date.year);
+			}
+			
+			if (dataFound == 0){
+				printf("Matching Document Not found");
+				exit(0);
+			}
+		
+		}
+	}
 }
 
