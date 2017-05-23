@@ -5,6 +5,10 @@
 
 COORD coord = {0,0};
 
+char sea[100];
+char swt;
+char re;
+
 void gotoxy(int x,int y);
 void rect();
 void add();
@@ -71,14 +75,14 @@ void rect(){
 	}
 	
 	//right line
-	for(i=8;i<35;i++){
-		gotoxy(105,1+i);
+	for(i=9;i<35;i++){
+		gotoxy(105,i);
 		printf("%c\n",257);
 	}
 	
 	//Left line
-	for(i=8;i<35;i++){
-	gotoxy(10,1+i);
+	for(i=9;i<35;i++){
+	gotoxy(10,i);
 	printf("%c",257);
 	}
 		//Bottom line
@@ -87,6 +91,27 @@ void rect(){
 		printf("%c",257);
 	}
 }
+
+void access_box()
+	{
+		int x,y[2]={25,27},i;
+		for(x=45;x<65;x++)
+		{
+		for(i=0;i<2;i++)
+		{
+			gotoxy(x,y[i]);
+			printf("=");
+		}
+		}
+
+	/*	for(i=45;i<65;i++)
+		{
+		gotoxy(i,27);
+		printf("=");
+		}
+	*/
+	}
+
 
 void add(){
 	FILE *fptr;
@@ -98,7 +123,7 @@ void add(){
 	gotoxy(90,14);
 	printf("Id : %d",id);
 	
-	fptr=fopen("E:/SIMs/ff.txt","a+b");
+	fptr=fopen("C:/Users/ELIYA/Cprogrammings/fileHandelling/sim_project/std_record.txt","a+b");
 	if (fptr==NULL){
 		printf("FILE CANNOT BE CREATED\n");
 		exit(0);
@@ -110,9 +135,9 @@ void add(){
 		gotoxy(13,14);
 		printf("Registration No.: ");
 		gotoxy(13,16);
-		printf("First name : ");
+		printf("First Name : ");
 		gotoxy(47,16);
-		printf("Last name : ");
+		printf("Last Name : ");
 		gotoxy(85,16);
 		printf("Roll No. : ");
 		gotoxy(13,18);
@@ -120,7 +145,7 @@ void add(){
 		gotoxy(47,18);
 		printf("Phone No.: ");
 		gotoxy(13,20);
-		printf("Year: ");
+		printf("Enrolled Year: ");
 		gotoxy(47,20);
 		printf("Semester: ");
 		gotoxy(13,22);
@@ -139,7 +164,7 @@ void add(){
 		scanf("%s",&record.address);
 		gotoxy(58,18);
 		scanf("%s",&record.phone);
-		gotoxy(19,20);
+		gotoxy(28,20);
 		scanf("%d",&record.year);
 		gotoxy(57,20);
 		scanf("%s",&record.sem);
@@ -166,9 +191,9 @@ void adminpage(){
 	gotoxy(47,15);
 	printf("1. ADD");
 	gotoxy(47,20);
-	printf("2. Modify");
+	printf("2. MODIFY");
 	gotoxy(47,25);
-	printf("3. Delete");
+	printf("3. DELETE");
 	cho = getch();
 	
 	switch (cho){
@@ -177,10 +202,15 @@ void adminpage(){
 			add();
 			break;
 		case '2':
-			printf("modify");
+
+			gotoxy(47,26);
+			printf("\t MODIFY HERE");
+			access_box();
 			break;
 		case '3':
-			printf("Delete");
+			gotoxy(47,26);
+			printf("DELETE FROM HERE");
+			access_box();
 			break;
 		default:
 			adminpage();
@@ -196,16 +226,13 @@ int login(){
 	char stdpas[10] = "admin";
 	char stdusn[10] = "admin";
 	
-	
 	gotoxy(47,20);
-	printf("user name: ");
+	printf("user name:");
 	gotoxy(47,23);
-	printf("Password: ");
-	gotoxy(60,20);
+	printf("Password:");
+	gotoxy(58,20);
 	gets(usrname);
-	gotoxy(60,23);
-	
-	
+	gotoxy(58,23);
 	while(1){
 		ch = getch();
 		if(ch == '\r'){
@@ -233,26 +260,36 @@ int login(){
 	pasword[i] = '\0';
 
 	
-	if (strcmp(stdpas,pasword) == 0 && strcmp(stdusn,usrname)==0){
+	if (strcmp(stdpas,pasword) == 0 && strcmp(stdusn,usrname)==0)
+	{	
+		access_box();
 		gotoxy(47,26);
-		printf("Access Granted");
+		printf("-ACCESS GRANTED-");
+		access_box();	
+		gotoxy(41,29);
+		printf("Press any key to continue...");
 		getch();
 		system("CLS");
 		adminpage();
 	}
 
-	else{
+	else
+	{
+		access_box();
 		gotoxy(47,26);
-		printf("Incorrect Password or username");
+		printf("-ACCESS  DENIED-");
+		gotoxy(42,29);
+		printf("||press any key to retry||");
 		getch();
+		login();
 		system("CLS");
 	}
 }
 
 void fpage(){
 	rect();
-	char swt;
-	char sea[100];
+//	char swt;
+//	char sea[100];
 	gotoxy(47,20);
 	printf("1. Search");
 	gotoxy(47,25);
@@ -261,7 +298,8 @@ void fpage(){
 	
 	switch (swt){
 		case '1':
-			gotoxy(70,22);
+		
+		/*	gotoxy(70,22);
 			printf("0");
 			gotoxy(71,23);
 			printf("\\");
@@ -269,6 +307,17 @@ void fpage(){
 			scanf("%s",sea);
 			search(sea);
 			break;
+		*/
+
+			
+				gotoxy(47,25);
+				printf("Enter Student Name");
+				gotoxy(47,26);
+				scanf("%s",sea);
+				search(sea);
+				break;
+			
+			
 		case '2':
 			system("CLS");
 			login();
@@ -282,7 +331,7 @@ void search(char name[20]){
 	FILE *fptr;
 	int dataFound = 0;
 	struct student record;	
-	fptr=fopen("E:/SIMs/ff.txt","rb");
+	fptr=fopen("C:/Users/ELIYA/Cprogrammings/fileHandelling/sim_project/std_record.txt","rb");
 	if(fptr== NULL){
 		printf("FILE NOT FOUND");
 		exit(0);
@@ -298,9 +347,9 @@ void search(char name[20]){
 				gotoxy(13,14);
 				printf("Registration No.: ");
 				gotoxy(13,16);
-				printf("First name : ");
+				printf("First Name : ");
 				gotoxy(47,16);
-				printf("Last name : ");
+				printf("Last Name : ");
 				gotoxy(85,16);
 				printf("Roll No. : ");
 				gotoxy(13,18);
@@ -308,7 +357,7 @@ void search(char name[20]){
 				gotoxy(47,18);
 				printf("Phone No.: ");
 				gotoxy(13,20);
-				printf("Year: ");
+				printf("Enrolled Year: ");
 				gotoxy(47,20);
 				printf("Semester: ");
 				gotoxy(13,22);
@@ -326,20 +375,52 @@ void search(char name[20]){
 				printf("%s",record.address);
 				gotoxy(58,18);
 				printf("%s",record.phone);
-				gotoxy(19,20);
+				gotoxy(28,20);
 				printf("%d",record.year);
 				gotoxy(57,20);
 				printf("%s",record.sem);
 				gotoxy(40,22);
 				printf("%d %d %d",record.date.day,record.date.month,record.date.year);
+				
+			
+			int z;
+				for (z=1;z<15;z++)
+				{
+					printf("\n");
+				}	
+			
+
 			}
 			
 			if (dataFound == 0){
-				printf("Matching Document Not found");
+			//printf("Matching Document Not Found");
+			
+				gotoxy(45,26);
+				printf("   No match found");
+				access_box();
+
+			/*	gotoxy(45,30);
+				printf("Press enter to retry");
+				re=getch();
+				if (re=='r')
+				{
+					gotoxy(47,25);
+					printf("Enter Student Name");
+					gotoxy(47,26);
+					scanf("%s",sea);
+					search(sea);
+					
+				}
+			*/
+				int z;
+				for (z=1;z<10;z++)
+				{
+					printf("\n");
+				}		
+			
 				exit(0);
 			}
 		
 		}
 	}
 }
-
